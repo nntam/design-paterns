@@ -77,7 +77,8 @@ The open–closed principle helps developers achieve a flexible system architect
 
 **Bad**
 
-Continue with Better code exapmle in first principle, we must to update *Graphics* class when new *Circle* class is added 
+Continue with Better code example in the first principle, we must update Graphics class when new Circle class is added.
+
 ```java
 class Rect {
     private int width;
@@ -116,16 +117,16 @@ class Rect extends Shape {
     ...
     
     public void render() {
- 		// render the rectangle
- 	}
+        // render the rectangle
+    }
 }
 
 class Circle extends Shape {
     ...
     
     public void render() {
- 		// render the circle
- 	}    
+        // render the circle
+    }
 }
 
 class GraphicsRender {
@@ -158,8 +159,8 @@ class RectRender extends ShapeRender {
     private Rect rect;
     
     public void render() {
- 		// render the rectangle
- 	}
+        // render the rectangle
+    }
 }
 
 class Circle {
@@ -167,15 +168,14 @@ class Circle {
     
     public void setRadius(int radius) { ... }    
     public int getRadius() { ... }
-    
 }
 
 class CircleRender extends ShapeRender {    
     private Circle circle;
     
     public void render() {
- 		// render the circle
- 	}
+        // render the circle
+    }
 }
 
 class GraphicsRender {
@@ -196,6 +196,96 @@ There are many design patterns that help us to extend code without changing it:
 * Factory Method or the Observer pattern might be used to design an application easy to change with minimum changes in the existing code.
 
 ## Liskov Substitution Principle
+
+> Liskov Substitution Principle => LSP
+
+### The Definition
+
+The Liskov substitution principle, written by Barbara Liskov in 1988.
+
+> Child classes should never break the parent class' type definitions.
+
+> Let q(x) be a property provable about objects x of type T. Then q(y) should be provable for objects y of type S where S is a subtype of T.
+
+### Example
+
+In geometry, a *square* is a particular form of *rectangle*. So we could try to implement a Square class that extends a Rectangle class.
+
+**Bad**
+```java
+class Rect {
+    private int width;
+    private int height;
+    
+    public void setWidth(int width) { ... }    
+    public int getWidth() { ... }
+    
+    public void setHeight(int height) { ... }    
+    public int getHeight() { ... }
+    
+    public int getArea() { return width * height; }
+}
+
+class Square extends Rectangle {
+    public function setWidth(int value) {
+        this.width = value;
+        this.height = value;
+    }
+    
+    public function setHeight(int value) {
+        this.width = value;
+        this.height = value;
+    }   
+}
+...
+Rectangle rect = new Rectangle();
+rect.setWidth(5);
+rect.setHeight(10);
+System.out.println(rect.getArea()); // Output is 50
+
+Rectangle square = new Square();
+square.setWidth(5);
+square.setHeight(10);
+System.out.println(square.getArea()); // Output is 100
+```
+
+**Better**
+```java
+interface ShapeArea {
+    abstract void getArea();
+}
+
+class Rect implements ShapeArea {
+    private int width;
+    private int height;
+    
+    public void setWidth(int width) { ... }
+    public int getWidth() { ... }
+    
+    public void setHeight(int height) { ... }    
+    public int getHeight() { ... }
+    
+    public int getArea() { return width * height; }
+}
+
+class Square implements ShapeArea {
+    private int length;
+    public function setLength(int value) { ... }
+    public int getLengt() { ... }
+    
+    public int getArea() { return length * length; }
+}
+...
+Rectangle rect = new Rectangle();
+rect.setWidth(5);
+rect.setHeight(10);
+System.out.println(rect.getArea()); // Output is 50
+
+Rectangle square = new Square();
+square.setLength(10);
+System.out.println(square.getArea()); // Output is 100
+```
+
 ## Interface Segregation Principle
 ## Dependency Inversion Principle
 
