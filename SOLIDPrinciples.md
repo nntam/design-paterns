@@ -376,6 +376,58 @@ The Interface Segregation Principle is about business logic to clients communica
 
 ## Dependency Inversion Principle
 
+> Dependency Inversion Principle => DIP
+
+### The Definition
+
+> A. High-level modules should not depend on low-level modules. Both should depend on abstractions.
+
+> B. Abstractions should not depend on details. Details should depend on abstractions.
+
+Low level classes: implement basic and primary operations (disk access, network protocols,...)
+
+High level classes: complex logic(business flows, ...)
+
+### Example
+
+```java
+class Shape {
+    abstract void render();
+}
+
+class Rect extends Shape {
+    ...
+    
+    public void render() {
+        // render the rectangle
+    }
+}
+
+class Circle extends Shape {
+    ...
+    
+    public void render() {
+        // render the circle
+    }
+}
+
+class GraphicsRender {
+    public void renderShape(Shape s) {
+        s.render();
+    }
+}
+```
+
+In example above, *GraphicsRender* is high level class and it do not depend on low level *Rect* or *Circle*
+
+### Conclusion
+
+The DIP is one that leads or helps us respect all the other principles.
+
+The Template Design Pattern is an example where the DIP principle is applied.
+
+In this case we cannot use DIP, we can use some of the Creational design patterns: Factory Method, Abstract Factory, Prototype.
+
 # References
 
 https://code.tutsplus.com/tutorials/solid-part-1-the-single-responsibility-principle--net-36074
