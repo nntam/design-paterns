@@ -251,11 +251,11 @@ System.out.println(square.getArea()); // Output is 100
 
 **Better**
 ```java
-interface ShapeArea {
-    abstract void getArea();
+interface ShapeInterface {
+    public int getArea();
 }
 
-class Rect implements ShapeArea {
+class Rect implements ShapeInterface {
     private int width;
     private int height;
     
@@ -265,14 +265,16 @@ class Rect implements ShapeArea {
     public void setHeight(int height) { ... }    
     public int getHeight() { ... }
     
+    @Override
     public int getArea() { return width * height; }
 }
 
-class Square implements ShapeArea {
+class Square implements ShapeInterface {
     private int length;
     public function setLength(int value) { ... }
     public int getLengt() { ... }
     
+    @Override
     public int getArea() { return length * length; }
 }
 ...
@@ -286,7 +288,92 @@ square.setLength(10);
 System.out.println(square.getArea()); // Output is 100
 ```
 
+### Conclusion
+
+Make sure that new derived classes are extending the base classes without changing their behavior.
+
 ## Interface Segregation Principle
+
+> Interface Segregation Principle => ISP
+
+### The Definition
+
+The Liskov substitution principle, written by Barbara Liskov in 1988.
+
+> A client should never be forced to implement an interface that it doesn't use or clients shouldn't be forced to depend on methods they do not use.
+
+### Example
+
+Assume we need add new class *Cube* with volume method, example below violate ISP if we implement new class from *ShapeInterface*
+
+**Bad**
+```java
+interface ShapeInterface {
+    public int getArea();
+    public int getVolumn();
+}
+
+class Rect implements ShapeInterface {
+    private int width;
+    private int height;
+    
+    ...
+    
+    @Override
+    public int getArea() { return width * height; }
+    
+    @Override
+    public int getVolumn(); // Violation of the ISP
+}
+
+class Cube implements ShapeInterface {
+    ...
+    
+    @Override
+    public int getArea() { ... }
+    
+    @Override
+    public int getVolumn() { ... }
+}
+```
+
+Following it's the code supporting the ISP. By splitting the *ShapeInterface* interface in 2 different interfaces: *ShapeAreaInterface* and *ShapeVolumnInterface*
+
+**Better**
+```java
+interface ShapeAreaInterface {
+    public int getArea();
+}
+
+interface ShapeVolumnInterface {
+    public int getVolumn();
+}
+
+class Rect implements ShapeAreaInterface {
+    private int width;
+    private int height;
+    
+    ...
+    
+    @Override
+    public int getArea() { return width * height; }
+}
+
+class Cube implements ShapeAreaInterface, ShapeVolumnInterface {
+    ...
+    
+    @Override
+    public int getArea() { ... }
+    
+    @Override
+    public int getVolumn() { ... }
+}
+```
+
+### Conclusion
+
+The Interface Segregation Principle is about business logic to clients communication. It produces a flexible design.
+
 ## Dependency Inversion Principle
 
 # References
